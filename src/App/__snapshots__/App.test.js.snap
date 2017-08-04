@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should initialize 1`] = `
+<div>
+  <input
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    value=""
+  />
+  <button
+    onClick={[Function]}
+  >
+    Send
+  </button>
+</div>
+`;
