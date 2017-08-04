@@ -59,7 +59,7 @@ export default class App extends Component {
 
   sendMessage({ key }) {
     if (key == 'Enter' && this.state.text !== '') {
-      console.log(this.state);
+      // console.log(this.state);
     }
   }
 

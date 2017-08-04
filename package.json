@@ -20,6 +20,7 @@
     "file-loader": "^0.11.2",
     "jest": "^20.0.4",
     "react-test-renderer": "^15.6.1",
+    "sinon": "^3.0.0",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.4.1"
@@ -34,6 +35,7 @@
     "roots": [
       "./src"
     ],
+    "coverageDirectory": "./report",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
