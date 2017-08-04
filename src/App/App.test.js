@@ -46,4 +46,12 @@ test('should initialize', () => {
   button.simulate('click');
   expect(sendMessageSpy.callCount).toEqual(2);
 
+  // update fetch function to fail
+  global.fetch = jest.fn(() => {
+    return new Promise((resolve, reject) => reject())
+  });
+
+  let wrapper2 = mount(
+    <App/>
+  );
 });
