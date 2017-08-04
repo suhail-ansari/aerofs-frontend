@@ -35,13 +35,16 @@
     "roots": [
       "./src"
     ],
-    "coverageDirectory": "./report",
+    "coverageDirectory": "./coverage",
     "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
       "!**.*.test.js",
       "!**/node_modules/**",
       "!**/vendor/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/index.js"
     ]
   }
 }

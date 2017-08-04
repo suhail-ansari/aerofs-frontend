@@ -3,9 +3,17 @@ import App from './index';
 import {mount} from 'enzyme';
 import {spy} from 'sinon';
 
-global.fetch = jest.fn(() => new Promise(resolve => resolve()));
-
 test('should initialize', () => {
+  
+  global.fetch = jest.fn(() => {
+    return new Promise(resolve => resolve({
+      json: () => {
+        return new Promise(resolve2 => {
+          resolve2({messages: []});
+        })
+      }
+    }));
+  });
 
   let getMessageSpy = spy(App.prototype, 'getMessages');
   let sendMessageSpy = spy(App.prototype, 'sendMessage');
@@ -14,8 +22,16 @@ test('should initialize', () => {
   let wrapper = mount(
     <App/>
   );
+
+  let initState = wrapper.state();
+  expect(initState.text).toEqual('');
+  expect(initState.error).toEqual('');
+  expect(initState.messages.length).toEqual(0);
+  expect(initState.last_seen).toEqual(0);
+
   expect(wrapper.find('input')).toBeDefined();
-  expect(getMessageSpy.calledOnce).toEqual(true);
+  expect(wrapper.find('button')).toBeDefined();
+  expect(getMessageSpy.callCount).toEqual(1);
 
   let input = wrapper.find('input');
   let button = wrapper.find('button');
