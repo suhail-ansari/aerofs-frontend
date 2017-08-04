@@ -46,7 +46,9 @@ test('should initialize', () => {
   button.simulate('click');
   expect(sendMessageSpy.callCount).toEqual(2);
 
-  // update fetch function to fail
+});
+
+test("test 1", done => {
   global.fetch = jest.fn(() => {
     return new Promise((resolve, reject) => reject())
   });
