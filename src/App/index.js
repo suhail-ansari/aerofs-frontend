@@ -9,8 +9,8 @@ export default class App extends Component {
     this.onNameEnter = this.onNameEnter.bind(this);
   }
 
-  onNameEnter() {
-
+  onNameEnter(name) {
+    this.setState({ name });
   }
 
   render() {

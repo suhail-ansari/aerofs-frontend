@@ -48,7 +48,7 @@ test('should initialize', () => {
 
 });
 
-test("test 1", done => {
+test("test 1", () => {
   global.fetch = jest.fn(() => {
     return new Promise((resolve, reject) => reject())
   });
