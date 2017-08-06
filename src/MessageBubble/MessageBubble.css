@@ -1,0 +1,30 @@
+.message-bubble {
+  background-color: aliceblue;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+  clear: both;
+  margin: 5px;
+  max-width: 80%;
+}
+
+.message-bubble.left {
+  float: left;
+  margin-left: 10px;
+}
+
+.message-bubble.right {
+  float: right;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.message-author {
+  font-weight: bold;
+  color: grey;
+}
+
+.message-timestamp {
+  font-size: 0.7em;
+  color: grey;
+}

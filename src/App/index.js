@@ -1,6 +1,6 @@
-import Reeact, { Component } from 'react';
-import LoginForm from './LoginForm';
-import Messenger from './Messenger';
+import React, { Component } from 'react';
+import LoginForm from '../LoginForm';
+import Messenger from '../Messenger';
 
 export default class App extends Component {
   constructor() {
@@ -17,7 +17,7 @@ export default class App extends Component {
     if (!this.state.name) {
       return <LoginForm onNameEnter={this.onNameEnter} />
     } else {
-      return <Messenger name={this.state.name} />
+      return <Messenger username={this.state.name} />
     }
   }
 }
