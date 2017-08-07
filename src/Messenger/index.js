@@ -14,7 +14,7 @@ export default class Messenger extends Component {
       editMode: false,
       editMessage: {
         text: '',
-        id: -1
+        index: -1
       },
       error: '',
       text: '',
@@ -30,6 +30,9 @@ export default class Messenger extends Component {
     this.handleInputTextChange = this.handleInputTextChange.bind(this);
     this.handleFetchSuccess = this.handleFetchSuccess.bind(this);
     this.handleFetchError = this.handleFetchError.bind(this);
+    this.handleMessageEdit = this.handleMessageEdit.bind(this);
+    this.exitEditMode = this.exitEditMode.bind(this);
+
     this.fetchMessages();
   }
 
@@ -77,11 +80,16 @@ export default class Messenger extends Component {
     );
   }
 
-  handleEditMessage(index) {
+  handleMessageEdit(index) {
     let message = this.state.messages[index];
     this.setState({
       ...this.state,
-      text: message.content
+      text: message.content,
+      editMode: true,
+      editMessage: {
+        text: message.content,
+        index
+      }
     });
   }
 
@@ -108,19 +116,65 @@ export default class Messenger extends Component {
     }
   }
 
+  editMessage(index) {
+    if (this.state.text !== '') {
+      let message = this.state.messages[index];
+      message.content = this.state.text;
+      message.last_edited = new Date().getTime();
+      
+      this.setState({
+        ...this.state,
+        messages: [
+          ...this.state.messages.slice(0, index),
+          message,
+          ...this.state.messages.slice(index + 1)
+        ],
+        text: '',
+        editMode: false,
+        editMessage: {
+          text: '',
+          index: -1
+        }
+      });
+    }
+  }
+
+  exitEditMode() {
+    this.setState({
+      ...this.state,
+      text: '',
+      editMode: false,
+      editMessage: {
+        text: '',
+        index: -1
+      }
+    });
+  }
+
   render() {
     return (
-      <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2 messenger-container">
+      <div className={`col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2 messenger-container ${this.state.editMode ? "quote-open" : ""}`}>
         <div className="message-list-container">
-          <MessageList 
-            username={this.props.username} 
-            messages={this.state.messages} />
+          <MessageList
+            username={this.props.username}
+            messages={this.state.messages}
+            onMessageEdit={this.handleMessageEdit} />
         </div>
         <div className="message-input-container">
+          {
+            this.state.editMode ?
+              <div className="previous-message-container">
+                <blockquote>
+                  <p>{this.state.editMessage.text}</p>
+                </blockquote>
+                <span className="glyphicon glyphicon-remove" onClick={this.exitEditMode}></span>
+              </div>
+              : null
+          }
           <MessageInput
             text={this.state.text}
             onInputChange={this.handleInputTextChange}
-            onSendMessage={this.sendMessage} />
+            onSendMessage={this.state.editMode ? this.editMessage.bind(this, this.state.editMessage.index) : this.sendMessage} />
         </div>
       </div>
     );

@@ -24,9 +24,3 @@ export default class MessageInput extends Component {
     );
   }
 }
-
-MessageInput.propTypes = {
-  text: PropTypes.string.isRequired,
-  onInputChange: PropTypes.func.isRequired,
-  onSendMessage: PropTypes.func.isRequired
-}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import MessageBubble from '../MessageBubble';
 
 export default class MessageList extends Component {
@@ -28,6 +29,8 @@ export default class MessageList extends Component {
           this.props.messages.map(
             (message, index) => <MessageBubble
               key={index}
+              index={index}
+              onMessageEdit={this.props.onMessageEdit}
               displayAuthor={message.author == this.props.username ? false : true}
               message={message}
               position={message.author == this.props.username ? 'right' : 'left'} />

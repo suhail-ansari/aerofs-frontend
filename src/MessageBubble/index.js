@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import './MessageBubble.css';
 
 export default class MessageBubble extends Component {
@@ -8,23 +7,22 @@ export default class MessageBubble extends Component {
     this.state = {
       hoveredOver: false
     }
-    
   }
-  
+
   render() {
     let message = this.props.message;
-    let timestamp = new Date(message.timestamp);
-    let timestampText = `
-      ${timestamp.toLocaleDateString()} 
-      ${timestamp.toLocaleTimeString("en-US", { hour: 'numeric', minute: 'numeric' })}
-    `;
+    let timestamp = message.last_edited ? new Date(message.last_edited) : new Date(message.timestamp);
+    let timestampDate = timestamp.toLocaleDateString();
+    let timestampTime = timestamp.toLocaleTimeString("en-US", { hour: 'numeric', minute: 'numeric' });
+    let timestampText = `${message.last_edited ? '*' : ''}${timestampDate} ${timestampTime}`;
+
     return (
       <div
         className={`message-bubble ${this.props.position}`}
         onMouseOver={() => { this.setState({ hoveredOver: true }) }}
         onMouseOut={() => { this.setState({ hoveredOver: false }) }}>
         {
-          (this.props.displayAuthor) ? <div className="message-author">{message.author}</div> : ''
+          (this.props.displayAuthor) ? <div className="message-author">{message.author}</div> : null
         }
         <div className="message-content">
           {message.content}
@@ -32,7 +30,7 @@ export default class MessageBubble extends Component {
         <div className="message-timestamp">
           {timestampText}
         </div>
-        <a className="message-edit">
+        <a className="message-edit" onClick={() => { this.props.onMessageEdit(this.props.index) }}>
           {(this.state.hoveredOver && !this.props.displayAuthor) ? 'Edit' : ''}
         </a>
       </div>
