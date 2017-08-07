@@ -54,7 +54,6 @@ test('should initialize', () => {
     rightBubble.simulate('mouseover');
     
     let editTextButton = rightBubble.find('a.message-edit');
-    expect(editTextButton.text()).toEqual('Edit');
     editTextButton.simulate('click');
     
     wrapper.update();
@@ -62,7 +61,7 @@ test('should initialize', () => {
     expect(handleMessageEditSpy.calledOnce).toEqual(true);
 
     expect(wrapper.find('blockquote').text()).toEqual(input.props().value);
-    
+
     form.simulate('submit');
 
     expect(editMessageSpy.calledOnce).toEqual(true);
@@ -80,14 +79,3 @@ test('should initialize', () => {
   });
 
 });
-
-/* test("test 1", () => {
-  global.fetch = jest.fn(() => {
-    return new Promise((resolve, reject) => reject())
-  });
-
-  let wrapper2 = mount(
-    <App />
-  );
-});
- */
