@@ -1,59 +1,93 @@
 import React from 'react';
-import App from './index';
-import {mount} from 'enzyme';
-import {spy} from 'sinon';
+import Messenger from './index';
+import { mount } from 'enzyme';
+import { spy, stub } from 'sinon';
 
 test('should initialize', () => {
-  
-  global.fetch = jest.fn(() => {
-    return new Promise(resolve => resolve({
-      json: () => {
-        return new Promise(resolve2 => {
-          resolve2({messages: []});
-        })
-      }
-    }));
+
+  let promise = Promise.resolve({
+    json: () => Promise.resolve({
+      messages: [{
+        "id": 11,
+        "author": "alex",
+        "timestamp": 1421953601859,
+        "content": "i'm on like aleutian time these days :P",
+        "last_edited": 1421953605859
+      }]
+    })
   });
 
-  let getMessageSpy = spy(App.prototype, 'getMessages');
-  let sendMessageSpy = spy(App.prototype, 'sendMessage');
-  let updateTextSpy = spy(App.prototype, 'updateText');
+  global.fetch = jest.fn(() => promise);
+
+  let fetchMessagesSpy = spy(Messenger.prototype, 'fetchMessages');
+  let sendMessageSpy = spy(Messenger.prototype, 'sendMessage');
+  let handleInputTextChangeSpy = spy(Messenger.prototype, 'handleInputTextChange');
+  let handleMessageEditSpy = spy(Messenger.prototype, 'handleMessageEdit');
+  let editMessageSpy = spy(Messenger.prototype, 'editMessage');
+  let exitEditModeSpy = spy(Messenger.prototype, 'exitEditMode');
 
   let wrapper = mount(
-    <App/>
+    <Messenger username={'Sam'} />
   );
-
-  let initState = wrapper.state();
-  expect(initState.text).toEqual('');
-  expect(initState.error).toEqual('');
-  expect(initState.messages.length).toEqual(0);
-  expect(initState.last_seen).toEqual(0);
 
   expect(wrapper.find('input')).toBeDefined();
   expect(wrapper.find('button')).toBeDefined();
-  expect(getMessageSpy.callCount).toEqual(1);
+  expect(fetchMessagesSpy.callCount).toEqual(1);
 
   let input = wrapper.find('input');
+  let form = wrapper.find('form');
   let button = wrapper.find('button');
 
-  input.simulate('change', {target: {value: 'hello, world'}});
-  expect(updateTextSpy.calledOnce).toEqual(true);
-  expect(input.props().value).toEqual('hello, world');
+  setImmediate(() => {
+    expect(wrapper.find('.message-bubble').length).toEqual(1);
 
-  input.simulate('keyup', {key: 'Enter'});
-  expect(sendMessageSpy.calledOnce).toEqual(true);
+    input.simulate('change', { target: { value: 'hello, world' } });
+    expect(handleInputTextChangeSpy.calledOnce).toEqual(true);
+    expect(input.props().value).toEqual('hello, world');
 
-  button.simulate('click');
-  expect(sendMessageSpy.callCount).toEqual(2);
+    form.simulate('submit', { preventDefault: () => { } });
+    expect(sendMessageSpy.calledOnce).toEqual(true);
+
+    expect(wrapper.find('.message-bubble').length).toEqual(2);
+
+    let rightBubble = wrapper.find('.message-bubble.right');
+    rightBubble.simulate('mouseover');
+    
+    let editTextButton = rightBubble.find('a.message-edit');
+    expect(editTextButton.text()).toEqual('Edit');
+    editTextButton.simulate('click');
+    
+    wrapper.update();
+    
+    expect(handleMessageEditSpy.calledOnce).toEqual(true);
+
+    expect(wrapper.find('blockquote').text()).toEqual(input.props().value);
+    
+    form.simulate('submit');
+
+    expect(editMessageSpy.calledOnce).toEqual(true);
+
+    rightBubble.simulate('mouseout');
+    
+    rightBubble.simulate('mouseover');
+    editTextButton.simulate('click');
+
+    let closeQuoteButton = wrapper.find('.glyphicon.glyphicon-remove');
+    closeQuoteButton.simulate('click');
+
+    expect(exitEditModeSpy.calledOnce).toEqual(true);
+
+  });
 
 });
 
-test("test 1", () => {
+/* test("test 1", () => {
   global.fetch = jest.fn(() => {
     return new Promise((resolve, reject) => reject())
   });
 
   let wrapper2 = mount(
-    <App/>
+    <App />
   );
 });
+ */

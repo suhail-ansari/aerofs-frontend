@@ -51,3 +51,8 @@
     padding-right: 10px;
   }
 }
+
+.error-message {
+  position: fixed;
+  top: 0;
+}

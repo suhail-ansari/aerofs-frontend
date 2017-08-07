@@ -32,12 +32,27 @@ export default class Messenger extends Component {
     this.handleFetchError = this.handleFetchError.bind(this);
     this.handleMessageEdit = this.handleMessageEdit.bind(this);
     this.exitEditMode = this.exitEditMode.bind(this);
+    this.fetchMessages = this.fetchMessages.bind(this);
+  }
 
+  componentDidMount() {
     this.fetchMessages();
   }
 
+  _getLastId(messages) {
+    return messages.reduce((prev, next) => {
+      return prev.id > next.id ? prev.id : next.id
+    }, 0);
+  }
+
+  _sortMessages(messages) {
+    return (
+      [...messages].sort((a, b) => a.timestamp > b.timestamp)
+    );
+  }
+
   fetchMessages() {
-    fetch('/fixtures/fakedata.json')
+    fetch('/fixtures/fakedatas.json')
       .then(res => res.json())
       .then(this.handleFetchSuccess)
       .catch(this.handleFetchError);
@@ -68,18 +83,6 @@ export default class Messenger extends Component {
     });
   }
 
-  _getLastId(messages) {
-    return messages.reduce((prev, next) => {
-      return prev.id > next.id ? prev.id : next.id
-    }, 1);
-  }
-
-  _sortMessages(messages) {
-    return (
-      [...messages].sort((a, b) => a.timestamp > b.timestamp)
-    );
-  }
-
   handleMessageEdit(index) {
     let message = this.state.messages[index];
     this.setState({
@@ -91,10 +94,6 @@ export default class Messenger extends Component {
         index
       }
     });
-  }
-
-  updateMessage(id) {
-    let updatedMessages
   }
 
   sendMessage() {
@@ -117,11 +116,12 @@ export default class Messenger extends Component {
   }
 
   editMessage(index) {
-    if (this.state.text !== '') {
-      let message = this.state.messages[index];
+    let message = this.state.messages[index];
+
+    if (this.state.text !== '' && message) {
       message.content = this.state.text;
       message.last_edited = new Date().getTime();
-      
+
       this.setState({
         ...this.state,
         messages: [
@@ -152,8 +152,12 @@ export default class Messenger extends Component {
   }
 
   render() {
+
+    let containerClass = `col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2 messenger-container`;
+    containerClass = `${containerClass} ${this.state.editMode ? 'quote-open' : ''}`;
+
     return (
-      <div className={`col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2 messenger-container ${this.state.editMode ? "quote-open" : ""}`}>
+      <div className={containerClass}>
         <div className="message-list-container">
           <MessageList
             username={this.props.username}
@@ -176,6 +180,11 @@ export default class Messenger extends Component {
             onInputChange={this.handleInputTextChange}
             onSendMessage={this.state.editMode ? this.editMessage.bind(this, this.state.editMessage.index) : this.sendMessage} />
         </div>
+        {
+          this.state.error ?
+            <div className="alert alert-danger error-message" role="alert">{this.state.error}</div>
+            : null
+        }
       </div>
     );
   }
