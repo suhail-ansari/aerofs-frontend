@@ -105,9 +105,7 @@ export default class Messenger extends Component {
   }
 
   handleMessageEdit(id) {
-    let message = this.state.messages.filter((_message) => {
-      return _message.id === id;
-    })[0];
+    let message = this.state.messages.find((_message) => _message.id === id);
     this.setState({
       ...this.state,
       text: message.content,
@@ -148,7 +146,7 @@ export default class Messenger extends Component {
   editMessage(id) {
     if (this.state.text !== '') {
       let messages = this.state.messages.map((_message) => {
-        if(_message.id === id) {
+        if (_message.id === id) {
           _message.content = this.state.text;
           _message.last_edited = new Date().getTime();
         }
@@ -186,6 +184,9 @@ export default class Messenger extends Component {
 
     return (
       <div className={containerClass}>
+        <div className="header">
+          <h4>React Chat</h4>
+        </div>
         <div className="message-list-container">
           <MessageList
             username={this.props.username}
