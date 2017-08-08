@@ -24,7 +24,7 @@ export default class MessageList extends Component {
 
   render() {
     return (
-      <div ref={(el) => { this.messagesListRef = el }} style={{ height: '100%', overflow: 'scroll' }}>
+      <div ref={(el) => { this.messagesListRef = el }} style={{ height: '100%', overflowY: 'scroll' }}>
         {
           this.props.messages.map(
             (message, index) => <MessageBubble

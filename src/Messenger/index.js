@@ -52,7 +52,7 @@ export default class Messenger extends Component {
   }
 
   fetchMessages() {
-    fetch('/fixtures/fakedatas.json')
+    fetch('/fixtures/fakedata.json')
       .then(res => res.json())
       .then(this.handleFetchSuccess)
       .catch(this.handleFetchError);

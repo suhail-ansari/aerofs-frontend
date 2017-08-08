@@ -8,6 +8,10 @@
   max-width: 80%;
 }
 
+.message-bubble p {
+  word-wrap: break-word;
+}
+
 .message-bubble.left {
   float: left;
   margin-left: 10px;
