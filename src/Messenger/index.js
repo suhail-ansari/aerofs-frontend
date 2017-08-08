@@ -6,6 +6,8 @@ import MessageList from '../MessageList';
 
 import './Messenger.css';
 
+import * as api from '../api.js';
+
 export default class Messenger extends Component {
   constructor(props) {
     super(props);
@@ -31,12 +33,18 @@ export default class Messenger extends Component {
     this.handleFetchSuccess = this.handleFetchSuccess.bind(this);
     this.handleFetchError = this.handleFetchError.bind(this);
     this.handleMessageEdit = this.handleMessageEdit.bind(this);
+    this.handleErrorDismiss = this.handleErrorDismiss.bind(this);
     this.exitEditMode = this.exitEditMode.bind(this);
     this.fetchMessages = this.fetchMessages.bind(this);
+    this.startPolling = this.startPolling.bind(this);
   }
 
   componentDidMount() {
+    /**
+     * fetch previous messages & start polling for new messages
+     */
     this.fetchMessages();
+    this.startPolling();
   }
 
   _getLastId(messages) {
@@ -51,9 +59,26 @@ export default class Messenger extends Component {
     );
   }
 
+  startPolling() {
+    api.poll()
+      .then(message => {
+        let messages = this._sortMessages([
+          ...this.state.messages,
+          message
+        ]);
+        this.setState({
+          ...this.state,
+          messages
+        });
+        setImmediate(() => {
+          this.startPolling();
+        });
+      })
+      .catch(this.handleFetchError);
+  }
+
   fetchMessages() {
-    fetch('/fixtures/fakedata.json')
-      .then(res => res.json())
+    api.fetchMessages()
       .then(this.handleFetchSuccess)
       .catch(this.handleFetchError);
   }
@@ -93,6 +118,13 @@ export default class Messenger extends Component {
         text: message.content,
         index
       }
+    });
+  }
+
+  handleErrorDismiss() {
+    this.setState({
+      ...this.state,
+      error: ''
     });
   }
 
@@ -182,7 +214,12 @@ export default class Messenger extends Component {
         </div>
         {
           this.state.error ?
-            <div className="alert alert-danger error-message" role="alert">{this.state.error}</div>
+            (
+              <div className="alert alert-danger error-message">
+                <a href="#" className="close" onClick={this.handleErrorDismiss}>&times;</a>
+                {this.state.error}
+              </div>
+            )
             : null
         }
       </div>

@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/jest/bin/jest.js"
+    "test": "./node_modules/jest/bin/jest.js",
+    "build": "./node_modules/webpack/bin/webpack.js",
+    "start-dev": "node_modules/webpack-dev-server/bin/webpack-dev-server.js"
   },
   "author": "",
   "license": "ISC",
@@ -46,7 +48,8 @@
       "!**/vendor/**"
     ],
     "coveragePathIgnorePatterns": [
-      "<rootDir>/src/index.js"
+      "<rootDir>/src/index.js",
+      "<rootDir>/src/api.js"
     ],
     "moduleNameMapper": {
       "\\.(css|sass)$": "identity-obj-proxy"

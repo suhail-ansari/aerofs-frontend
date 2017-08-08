@@ -39,10 +39,19 @@
   background-color: #eee;
 }
 
+.error-message {
+  position: fixed;
+}
+
 @media (min-width: 768px) {
   .messenger-container {
     border-left: 1px solid lightgrey;
     border-right: 1px solid lightgrey;
+  }
+
+  .error-message {
+    top: 10px;
+    right: 10px;
   }
 }
 
@@ -51,9 +60,12 @@
     padding-left: 10px;
     padding-right: 10px;
   }
+
+  .error-message {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+  }
 }
 
-.error-message {
-  position: fixed;
-  top: 0;
-}
+

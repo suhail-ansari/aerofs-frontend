@@ -3,21 +3,30 @@ import Messenger from './index';
 import { mount } from 'enzyme';
 import { spy, stub } from 'sinon';
 
+import * as api from '../api';
+
 describe('<Messenger />', () => {
 
-  let promise = Promise.resolve({
-    json: () => Promise.resolve({
-      messages: [{
-        "id": 11,
-        "author": "alex",
-        "timestamp": 1421953601859,
-        "content": "i'm on like aleutian time these days :P",
-        "last_edited": 1421953605859
-      }]
-    })
+  let fetchMessagesPromise = Promise.resolve({
+    messages: [{
+      "id": 11,
+      "author": "alex",
+      "timestamp": 1421953601859,
+      "content": "i'm on like aleutian time these days :P",
+      "last_edited": 1421953605859
+    }]
   });
 
-  global.fetch = jest.fn(() => promise);
+  let pollPromise = Promise.resolve({
+    "id": 11,
+    "author": "alex",
+    "timestamp": 1421953601859,
+    "content": "i'm on like aleutian time these days :P",
+    "last_edited": 1421953605859
+  });
+
+  api.fetchMessages = jest.fn(() => fetchMessagesPromise);
+  api.poll = jest.fn(() => pollPromise);
 
   test('should initialize', () => {
 
@@ -37,7 +46,7 @@ describe('<Messenger />', () => {
     );
 
     setImmediate(() => {
-      expect(wrapper.find('.message-bubble').length).toEqual(1);
+      expect(wrapper.find('.message-bubble').length).toEqual(2);
     });
   });
 
@@ -123,4 +132,23 @@ describe('<Messenger />', () => {
     expect(exitEditModeSpy.calledOnce).toBe(true);
 
   });
+
+  test('should display error message', () => {
+    api.poll = jest.fn(() => Promise.reject());
+
+    let wrapper = mount(
+      <Messenger username={'Sam'} />
+    );
+
+    setImmediate(() => {
+      expect(wrapper.find('.error-message').length).toEqual(1);
+
+      let closeButton = wrapper.find('.error-message > .close');
+      closeButton.simulate('click');
+
+      expect(wrapper.find('.error-message').length).toEqual(0);
+    });
+
+  });
+
 });
