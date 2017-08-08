@@ -9,7 +9,7 @@ describe('<Messenger />', () => {
 
   let fetchMessagesPromise = Promise.resolve({
     messages: [{
-      "id": 11,
+      "id": 'test-id-1',
       "author": "alex",
       "timestamp": 1421953601859,
       "content": "i'm on like aleutian time these days :P",
@@ -18,7 +18,7 @@ describe('<Messenger />', () => {
   });
 
   let pollPromise = Promise.resolve({
-    "id": 11,
+    "id": 'test-id-2',
     "author": "alex",
     "timestamp": 1421953601859,
     "content": "i'm on like aleutian time these days :P",

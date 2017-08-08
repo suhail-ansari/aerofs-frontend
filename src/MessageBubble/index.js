@@ -31,7 +31,7 @@ export default class MessageBubble extends Component {
         <div className="message-timestamp">
           {timestampText}
         </div>
-        <a className="message-edit" onClick={() => { this.props.onMessageEdit(this.props.index) }}>
+        <a className="message-edit" onClick={() => { this.props.onMessageEdit(message.id) }}>
           {(this.state.hoveredOver && !this.props.displayAuthor) ? 'Edit' : ''}
         </a>
       </div>

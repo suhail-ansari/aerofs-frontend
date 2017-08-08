@@ -27,13 +27,12 @@ export default class MessageList extends Component {
       <div ref={(el) => { this.messagesListRef = el }} style={{ height: '100%', overflowY: 'scroll' }}>
         {
           this.props.messages.map(
-            (message, index) => <MessageBubble
-              key={index}
-              index={index}
+            (message) => <MessageBubble
+              key={message.id}
               onMessageEdit={this.props.onMessageEdit}
-              displayAuthor={message.author == this.props.username ? false : true}
+              displayAuthor={message.author === this.props.username ? false : true}
               message={message}
-              position={message.author == this.props.username ? 'right' : 'left'} />
+              position={message.author === this.props.username ? 'right' : 'left'} />
           )
         }
       </div>

@@ -1,0 +1,92 @@
+{
+  "messages": [
+    {
+      "content": "Hello!",
+      "timestamp": 1421953410956,
+      "id": "955f548b-2663-453c-bf2e-d8fd1eaf3042",
+      "author": "Jane"
+    },
+    {
+      "content": "How are you?",
+      "timestamp": 1421953434028,
+      "last_edited": 1421953454124,
+      "id": "99c325a9-fa90-496e-9ebd-bac169073e13",
+      "author": "Sam"
+    },
+    {
+      "content": "I'm in SAT!",
+      "timestamp": 1421953433276,
+      "id": "1150a726-c04a-40bb-80e7-6e91fa50776c",
+      "author": "Jane"
+    },
+    {
+      "content": "Flight is delayed. :P San Antonio TSA was the friendliest I've ever encountered, though. And I have a hamburger, a beer, and decent wifi.",
+      "timestamp": 1421953454129,
+      "id": "feac07c5-2ae4-4854-82d5-1d42caac97a9",
+      "author": "Jane"
+    },
+    {
+      "content": "Not bad.",
+      "timestamp": 1421953475813,
+      "id": "21dbb51d-4a19-4f86-af28-1c91f3220d17",
+      "author": "Sam"
+    },
+    {
+      "content": "do you still need a ride from the airport?",
+      "timestamp": 1421953485810,
+      "id": "01fe6af6-b459-4fbc-a40e-ce51302c377f",
+      "author": "alex"
+    },
+    {
+      "content": "@Alex: Yeah, likely will get my bags after BART stops running. They're saying the ETA is 11:40pm now. Is that too late for you?",
+      "timestamp": 1421953502796,
+      "last_edited": 1421953556411,
+      "id": "540ce96c-8ddb-44dd-86d9-00e124cc81b4",
+      "author": "Jane"
+    },
+    {
+      "content": "Liana says hi!",
+      "timestamp": 1421953569386,
+      "id": "f713c6dd-6e8b-4996-b69b-89d2aa783bc0",
+      "author": "Sam"
+    },
+    {
+      "content": "that's fine",
+      "timestamp": 1421953569386,
+      "id": "102f6240-5e4d-41bb-9c6d-b05dd29dc807",
+      "author": "alex"
+    },
+    {
+      "content": "https://medium.com/the-nib/the-truth-about-the-internet-fb8864c92185 oh dear",
+      "timestamp": 1421953591994,
+      "id": "a615755c-b929-435e-ad33-6ae8ad1e12a9",
+      "author": "Carly"
+    },
+    {
+      "content": "i'm on like aleutian time these days :P",
+      "timestamp": 1421953601859,
+      "last_edited": 1421953605859,
+      "id": "af2f77f9-01e8-48c0-b13c-8940f1cb10ab",
+      "author": "alex"
+    },
+    {
+      "content": "Hi Lili! How did your art show go? :D",
+      "timestamp": 1421953638978,
+      "id": "3d5f784f-9175-4b24-bd30-822d2aef9f92",
+      "author": "Jane"
+    },
+    {
+      "content": "Wheeeeee.",
+      "timestamp": 1421953496000,
+      "id": "0ebe8837-4778-43c2-8186-4193d38e3940",
+      "author": "Carly"
+    },
+    {
+      "content": "@Carly: Pretty much.",
+      "timestamp": 1421953733618,
+      "id": "b8772142-d933-4d0a-9be4-7fb5efd8b16f",
+      "author": "Sam"
+    }
+  ],
+  "last_seen": 1421953648024
+}

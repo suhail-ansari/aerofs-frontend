@@ -1,4 +1,5 @@
-const data = require('../fixtures/fakedata.json');
+const data = require('../fixtures/fakedata2.json');
+import { guid } from './utils';
 
 const MAX_TIME_TO_RESOLVE = 30000;
 
@@ -10,7 +11,7 @@ export function poll() {
   const message = Object.assign({}, 
     data.messages[parseInt(Math.random() * data.messages.length)]);
   message.timestamp = new Date().getTime();
-  message.id = parseInt((Math.random() * 1000) * 2);
+  message.id = guid();
   message.last_edited ? (message.last_edited = new Date().getTime()) :  null;
   
   const timeToResolve = parseInt(MAX_TIME_TO_RESOLVE * Math.random());

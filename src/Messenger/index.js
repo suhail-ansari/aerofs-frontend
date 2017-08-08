@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import MessageInput from '../MessageInput';
 import MessageList from '../MessageList';
 
+import { guid } from '../utils';
+
 import './Messenger.css';
 
 import * as api from '../api.js';
@@ -16,7 +18,7 @@ export default class Messenger extends Component {
       editMode: false,
       editMessage: {
         text: '',
-        index: -1
+        id: ''
       },
       error: '',
       text: '',
@@ -45,12 +47,6 @@ export default class Messenger extends Component {
      */
     this.fetchMessages();
     this.startPolling();
-  }
-
-  _getLastId(messages) {
-    return messages.reduce((prev, next) => {
-      return prev.id > next.id ? prev.id : next.id
-    }, 0);
   }
 
   _sortMessages(messages) {
@@ -108,15 +104,17 @@ export default class Messenger extends Component {
     });
   }
 
-  handleMessageEdit(index) {
-    let message = this.state.messages[index];
+  handleMessageEdit(id) {
+    let message = this.state.messages.filter((_message) => {
+      return _message.id === id;
+    })[0];
     this.setState({
       ...this.state,
       text: message.content,
       editMode: true,
       editMessage: {
         text: message.content,
-        index
+        id
       }
     });
   }
@@ -130,7 +128,7 @@ export default class Messenger extends Component {
 
   sendMessage() {
     if (this.state.text !== '') {
-      let newMessageId = this._getLastId(this.state.messages) + 1;
+      let newMessageId = guid();
       this.setState({
         ...this.state,
         text: '',
@@ -147,25 +145,23 @@ export default class Messenger extends Component {
     }
   }
 
-  editMessage(index) {
-    let message = this.state.messages[index];
-
-    if (this.state.text !== '' && message) {
-      message.content = this.state.text;
-      message.last_edited = new Date().getTime();
-
+  editMessage(id) {
+    if (this.state.text !== '') {
+      let messages = this.state.messages.map((_message) => {
+        if(_message.id === id) {
+          _message.content = this.state.text;
+          _message.last_edited = new Date().getTime();
+        }
+        return _message;
+      });
       this.setState({
         ...this.state,
-        messages: [
-          ...this.state.messages.slice(0, index),
-          message,
-          ...this.state.messages.slice(index + 1)
-        ],
+        messages,
         text: '',
         editMode: false,
         editMessage: {
           text: '',
-          index: -1
+          id: ''
         }
       });
     }
@@ -210,7 +206,7 @@ export default class Messenger extends Component {
           <MessageInput
             text={this.state.text}
             onInputChange={this.handleInputTextChange}
-            onSendMessage={this.state.editMode ? this.editMessage.bind(this, this.state.editMessage.index) : this.sendMessage} />
+            onSendMessage={this.state.editMode ? this.editMessage.bind(this, this.state.editMessage.id) : this.sendMessage} />
         </div>
         {
           this.state.error ?
