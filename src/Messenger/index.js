@@ -184,7 +184,7 @@ export default class Messenger extends Component {
 
     return (
       <div className={containerClass}>
-        <div className="header">
+        <div className="messenger-header">
           <h4>React Chat</h4>
         </div>
         <div className="message-list-container">

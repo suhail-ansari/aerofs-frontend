@@ -19,6 +19,9 @@ describe('<LoginForm />', () => {
     expect(input).toBeDefined();
     expect(button).toBeDefined();
 
+    form.simulate('submit', { preventDefault: () => { } });
+    expect(onNameEnter.mock.calls.length).toEqual(0);
+
     input.simulate('change', { target: { value: 'Suhail' } });
     form.simulate('submit', { preventDefault: () => { } });
     expect(onNameEnter.mock.calls.length).toEqual(1);

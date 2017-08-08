@@ -63,12 +63,15 @@ describe('<Messenger />', () => {
     let form = wrapper.find('form');
     let button = wrapper.find('button');
 
+    form.simulate('submit', { preventDefault: () => { } });
+    expect(sendMessageSpy.callCount).toEqual(1);
+
     input.simulate('change', { target: { value: 'hello, world' } });
     expect(handleInputTextChangeSpy.calledOnce).toEqual(true);
     expect(input.props().value).toEqual('hello, world');
 
     form.simulate('submit', { preventDefault: () => { } });
-    expect(sendMessageSpy.calledOnce).toEqual(true);
+    expect(sendMessageSpy.callCount).toEqual(2);
 
     expect(wrapper.find('.message-bubble').length).toEqual(1);
 
@@ -111,15 +114,17 @@ describe('<Messenger />', () => {
     let editTextButton = rightBubble.find('a.message-edit');
     editTextButton.simulate('click');
 
-    wrapper.update();
-
     expect(handleMessageEditSpy.calledOnce).toEqual(true);
 
     expect(wrapper.find('blockquote').text()).toEqual(input.props().value);
+
+    input.simulate('change', { target: { value: '' } });
+    form.simulate('submit');
+    expect(editMessageSpy.callCount).toEqual(1);
+
     input.simulate('change', { target: { value: 'new Message' } });
     form.simulate('submit');
-
-    expect(editMessageSpy.calledOnce).toEqual(true);
+    expect(editMessageSpy.callCount).toEqual(2);
     expect(rightBubble.find('p').text()).toEqual('new Message');
 
     rightBubble.simulate('mouseout');

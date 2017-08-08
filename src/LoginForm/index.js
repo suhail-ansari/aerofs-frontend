@@ -15,7 +15,7 @@ export default class LoginForm extends Component {
   }
 
   handleSubmit(event) {
-    if (this.state.name) {
+    if (this.state.name !== '') {
       this.props.onNameEnter(this.state.name);
     }
     event.preventDefault();
