@@ -8,16 +8,19 @@ export function fetchMessages() {
 }
 
 export function poll() {
-  const message = Object.assign({}, 
-    data.messages[parseInt(Math.random() * data.messages.length)]);
-  message.timestamp = new Date().getTime();
-  message.id = guid();
-  message.last_edited ? (message.last_edited = new Date().getTime()) :  null;
-  
   const timeToResolve = parseInt(MAX_TIME_TO_RESOLVE * Math.random());
 
   return new Promise(resolve => {
     setTimeout(() => {
+      const message = Object.assign({},
+        data.messages[parseInt(Math.random() * data.messages.length)]
+      );
+      message.timestamp = new Date().getTime();
+      message.id = guid();
+      message.last_edited ? (message.last_edited = new Date().getTime()) : null;
+
+      console.log('Receiving Message from \'Server\':', message);
+
       resolve(message);
     }, timeToResolve);
   });
