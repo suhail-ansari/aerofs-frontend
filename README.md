@@ -22,18 +22,29 @@ $> npm test
 $> npm test -- --coverage
 ```
 
-## Approach
+## Solution
 
-The app consists of a ```LoginForm``` component and ```Messenger``` component. When the webpage is opened, the user is asked to enter username. After which the Messenger component is displayed.
+>NOTE: I modified the data by converting all ```message.id``` to UUID, so that instead of keeping track of the last ```message.id``` I just create a new UUID for new messages. 
 
-```Messenger``` component consists of two main child component, ```MessageInput``` to display the input and send button and ```MessageList``` to display the messages.
+> Instead of making HTTP requests, I instead exposed two functions in ```api.js```, ```fetchMessages``` to get previous messages and ```poll``` to poll for new messages. Both functions return a promise. The ```poll``` method just picks up a random message from the ```fixture/fakedata2.json```, updates the timestamp and resolves the promise in a ```setTimeout``` to simulate 'realtime' behaviour.
 
-I created two mock HTTP APIs to fetch previous messages and poll for new messasges. ```fetchMessages``` reads and returns data from ```fakedata.json``` and ```poll``` return a random message from ```fakedata.json``` with updated id and timestamps.
+The App consists of following components:
 
-When the ```Messenger``` component is loaded, it makes a 'fake' ```fetch``` request to get messages and renders them into the ```MessageList``` as previous messages. Once the previous messages are fetched, the component then starts 'fake' polling for new messages using the above mentioned 'fake' APIs.
+### ```App```
 
-Since, the app seemed simple enough I did not use ```Redux``` to maintain app state (although admittedly, things would have become simpler had I used it.), I maintain the app state in the ```Messenger``` component itself. The state keeps track of all the messages, errors while making fetch and poll requests and if the ```Messenger``` is in edit mode.
+Displays the ```LoginForm``` and ```Messenger``` component after user enters the username.
 
-To implement the edit message feature, I assumed the user can only edit their own messages. When the user hovers over their message, I display an 'Edit' link, which when clicked puts the messenger in edit mode. I display the previous message as a ```blockquote``` above the mesage input so the user can see, their previously sent message while editing it.
+### ```LoginForm```
+Displays a form with input to enter name and 'Login'.
 
-For link detection, instead of using a library, I built ```RichText``` component, a simple component that detects and add links to the text. it uses url matching regex to replace links with anchor elements (its not perfect like [```Linkify```](http://soapbox.github.io/linkifyjs/), but simple enough to work).
+### ```Messenger```
+This is the main component which contains ```MessageList``` component to display messages, ```MessageInput``` to display text input and send button for new/edit messages. The messenger 'poll' for new message by calling the ```api.poll``` method. The messenger keeps track of the all the messages, the current text in input, the messages being edited in the component state and then renders components accordingly.
+
+### ```MessageList```
+Displays the messages as a list of ```MessageBubble``` component.
+
+### ```MessageBubble```
+Renders individual messages. Uses ```RichText``` component to replace links in text with anchor tags.
+
+### ```MessageInput```
+Render the input and send button.
