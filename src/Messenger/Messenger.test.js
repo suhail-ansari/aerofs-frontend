@@ -132,7 +132,7 @@ describe('<Messenger />', () => {
     rightBubble.simulate('mouseover');
     editTextButton.simulate('click');
 
-    let closeQuoteButton = wrapper.find('.glyphicon.glyphicon-remove');
+    let closeQuoteButton = wrapper.find('.previous-message-container span.close');
     closeQuoteButton.simulate('click');
     expect(exitEditModeSpy.calledOnce).toBe(true);
 

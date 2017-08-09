@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import MessageBubble from '../MessageBubble';
 
 export default class MessageList extends Component {

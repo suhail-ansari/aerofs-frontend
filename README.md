@@ -3,7 +3,7 @@
 I built this app using React. It is the only dependency in the app.
 I used Jest and Enzyme for testing.
 
-I have included the compiled Javascript along with code. To run the app just open ```index.html``` in the browser (since, I am included ```fakedata.json``` in the code itself and made some wrapper functions to simulate HTTP requests, the app will run without and http server).
+I have included the compiled Javascript along with code in the ```./build``` folder. To run the app just open ```index.html``` in the browser (since, I am included ```fakedata.json``` in the code itself and made some wrapper functions to simulate HTTP requests, the app will run without an http server).
 
 You can also run the development server using:
 ```
