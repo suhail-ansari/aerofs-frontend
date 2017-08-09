@@ -10,10 +10,13 @@ You can also run the development server using:
 $> npm install
 $> npm run start-dev
 
+# or serve the files using 
+$> python -m SimpleHTTPServer
+
 # or compile the files using
 $> npm run build
 
-# the files are compiled in the build folder
+# the files are compiled in the ./build folder
 
 $ to run tests
 $> npm test
