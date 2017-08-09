@@ -200,7 +200,7 @@ export default class Messenger extends Component {
                 <blockquote>
                   <p>{this.state.editMessage.text}</p>
                 </blockquote>
-                <span className="glyphicon glyphicon-remove" onClick={this.exitEditMode}></span>
+                <span className="close" onClick={this.exitEditMode}>&times;</span>
               </div>
               : null
           }

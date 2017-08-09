@@ -15,22 +15,24 @@
 }
 
 .messenger-container.quote-open {
-  padding-bottom: 120px;
+  padding-bottom: 130px;
 }
 
 .previous-message-container blockquote {
-  max-height: 50px;
+  height: 40px;
   overflow-y: scroll;
   border-left: 5px solid greenyellow;
   font-size: 0.9em;
   word-break: break-all;
+  padding-top: 5px;
 }
 
 .previous-message-container span {
     position: absolute;
     right: 15px;
-    top: 40px;
-    color: red;
+    top: 25px;
+    color: #F44336;
+    opacity: 1;
 }
 
 .message-list-container {
